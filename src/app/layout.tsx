@@ -8,8 +8,9 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-	title: 'Eagle Noise',
+	title: '🦅 Noise | by @prodbyeagle',
 	description: 'Create Fast and Easy Noisy Gradients.',
+	icons: 'https://kappa.lol/WTiY5',
 };
 
 export default function RootLayout({
