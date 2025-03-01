@@ -11,8 +11,7 @@ import { Download } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import type { NoiseSettings, NoiseType } from '@/types/noise';
-import type { SettingsPanelProps } from '@/types/noise';
+import type { NoiseSettings, NoiseType, SettingsPanelProps } from '@/types';
 
 export default function SettingsPanel({
 	settings,
@@ -46,9 +45,9 @@ export default function SettingsPanel({
 	};
 
 	const getRandomPastelColor = () => {
-		const r = Math.floor(Math.random() * 128 + 127);
-		const g = Math.floor(Math.random() * 128 + 127);
-		const b = Math.floor(Math.random() * 128 + 127);
+		const r = Math.floor(Math.random() * 150 + 50);
+		const g = Math.floor(Math.random() * 150 + 50);
+		const b = Math.floor(Math.random() * 150 + 50);
 
 		return `#${r.toString(16).padStart(2, '0')}${g
 			.toString(16)

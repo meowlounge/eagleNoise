@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import NoiseCanvas from '@/components/noise-generator/canvas';
 import SettingsPanel from '@/components/noise-generator/settings-panel';
 import * as THREE from 'three';
 import { exportAsPNG } from '@/lib/exporters';
-import type { NoiseSettings } from '@/types/noise';
+import type { NoiseSettings } from '@/types';
+import { checkDarkMode } from '@/lib/darkmode';
 
 export default function Home() {
 	const [settings, setSettings] = useState<NoiseSettings>({
@@ -24,6 +25,10 @@ export default function Home() {
 	const cameraRef = useRef<THREE.Camera | null>(null);
 	const materialRef = useRef<THREE.ShaderMaterial | null>(null);
 
+	useEffect(() => {
+		checkDarkMode();
+	}, []);
+
 	return (
 		<main className='flex min-h-screen flex-col lg:flex-row'>
 			<div className='w-full lg:w-80 lg:border-r border-neutral-200 dark:border-neutral-800 p-6 bg-neutral-50 dark:text-neutral-100 dark:bg-neutral-950 flex-shrink-0'>
@@ -39,12 +44,13 @@ export default function Home() {
 
 			<div className='flex-1 flex items-center justify-center bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-950 p-4 sm:p-8'>
 				<div
-					className='relative shadow-lg rounded-lg overflow-hidden w-full max-w-full'
+					className='relative shadow-lg rounded-lg overflow-hidden flex items-center justify-center'
 					style={{
-						width: `${settings.width}px`,
-						height: `${settings.height}px`,
-						maxWidth: '100%',
-						maxHeight: '100%',
+						width: '100%',
+						height: '100%',
+						maxWidth: `${Math.min(settings.width, 1200)}px`,
+						maxHeight: `${Math.min(settings.height, 800)}px`,
+						aspectRatio: `${settings.width} / ${settings.height}`,
 					}}>
 					<NoiseCanvas
 						settings={settings}

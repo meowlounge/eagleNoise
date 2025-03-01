@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import * as THREE from 'three';
-import type { NoiseSettings } from '@/types/noise';
+import type { NoiseSettings } from '@/types';
 
 interface NoiseCanvasProps {
 	settings: NoiseSettings;
@@ -30,7 +30,7 @@ export default function NoiseCanvas({
 
 		const scene = new THREE.Scene();
 		sceneRef.current = scene;
-    
+
 		const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 		cameraRef.current = camera;
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { NoiseSettings } from '@/types/noise';
+import type { NoiseSettings } from '@/types';
 import { Button } from '@/components/ui/button';
 import {
 	Dialog,
