@@ -1,101 +1,61 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useRef } from 'react';
+import NoiseCanvas from '@/components/noise-generator/canvas';
+import SettingsPanel from '@/components/noise-generator/settings-panel';
+import * as THREE from 'three';
+import { exportAsPNG } from '@/lib/exporters';
+import type { NoiseSettings } from '@/types/noise';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+	const [settings, setSettings] = useState<NoiseSettings>({
+		noiseType: 'perlin',
+		colors: ['#f54ba5', '#89296c', '#f11d77', '#ffd22a', '#95f96a'],
+		width: 1000,
+		height: 600,
+		noiseOpacity: 0.08,
+		noiseScale: 0.75,
+		animationSpeed: 2,
+	});
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+	const canvasRef = useRef<HTMLCanvasElement | null>(null);
+	const sceneRef = useRef<THREE.Scene | null>(null);
+	const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+	const cameraRef = useRef<THREE.Camera | null>(null);
+	const materialRef = useRef<THREE.ShaderMaterial | null>(null);
+
+	return (
+		<main className='flex min-h-screen flex-col lg:flex-row'>
+			<div className='w-full lg:w-80 lg:border-r border-neutral-200 dark:border-neutral-800 p-6 bg-neutral-50 dark:text-neutral-100 dark:bg-neutral-950 flex-shrink-0'>
+				<h1 className='text-2xl font-bold mb-6'>🦅 Noise</h1>
+				<SettingsPanel
+					settings={settings}
+					onSettingsChange={setSettings}
+					onExport={() =>
+						exportAsPNG(canvasRef, rendererRef, sceneRef, cameraRef)
+					}
+				/>
+			</div>
+
+			<div className='flex-1 flex items-center justify-center bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-950 p-4 sm:p-8'>
+				<div
+					className='relative shadow-lg rounded-lg overflow-hidden w-full max-w-full'
+					style={{
+						width: `${settings.width}px`,
+						height: `${settings.height}px`,
+						maxWidth: '100%',
+						maxHeight: '100%',
+					}}>
+					<NoiseCanvas
+						settings={settings}
+						canvasRef={canvasRef}
+						sceneRef={sceneRef}
+						rendererRef={rendererRef}
+						cameraRef={cameraRef}
+						materialRef={materialRef}
+					/>
+				</div>
+			</div>
+		</main>
+	);
 }
