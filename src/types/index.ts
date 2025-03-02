@@ -1,10 +1,10 @@
 /**
  * The type representing different noise generation algorithms.
  * The available noise types are:
- * - 'perlin': Perlin noise generation.
- * - 'simplex': Simplex noise generation.
- * - 'worley': Worley noise generation.
- * - 'value': Value noise generation.
+ * - `perlin`
+ * - `simplex`
+ * - `worley`
+ * - `value`
  */
 export type NoiseType = 'perlin' | 'simplex' | 'worley' | 'value';
 

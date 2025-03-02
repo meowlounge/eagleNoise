@@ -12,7 +12,7 @@ export default function Home() {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [settings, setSettings] = useState<NoiseSettings>({
 		noiseType: 'perlin',
-		colors: ['#f54ba5', '#89296c', '#f11d77', '#ffd22a', '#95f96a'],
+		colors: ['#ffe5ec', '#ffc2d1', '#ffb3c6', '#ff8fab', '#fb6f92'],
 		width: 1024,
 		height: 512,
 		noiseOpacity: 0.08,

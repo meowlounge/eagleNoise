@@ -109,7 +109,7 @@ export default function ExportDialog({
 										Duration
 									</span>
 									<NumberFlow
-										suffix='s'
+										suffix=' seconds'
 										value={gifDuration}
 										className='text-xs font-medium text-neutral-300'></NumberFlow>
 								</div>

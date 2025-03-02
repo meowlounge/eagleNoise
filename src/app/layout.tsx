@@ -10,7 +10,7 @@ const geistSans = Geist({
 export const metadata: Metadata = {
 	title: '🦅 Noise | by @prodbyeagle',
 	description: 'Create Fast and Easy Noisy Gradients.',
-	icons: 'https://kappa.lol/WTiY5',
+	icons: 'https://kappa.lol/Lom0v',
 };
 
 export default function RootLayout({

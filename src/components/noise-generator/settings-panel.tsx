@@ -13,18 +13,30 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { NoiseSettings, NoiseType, SettingsPanelProps } from '@/types';
 import NumberFlow, { continuous } from '@number-flow/react';
+import { PROFILES } from '@/data/profiles';
 
 export default function SettingsPanel({
 	settings,
 	onSettingsChange,
 	onExport,
 }: SettingsPanelProps) {
+	const getRandomProfile = () => {
+		const randomIndex = Math.floor(Math.random() * PROFILES.length);
+		return PROFILES[randomIndex];
+	};
 	const [localSettings, setLocalSettings] = useState(settings);
+	const [selectedProfile, setSelectedProfile] = useState<string | null>(null);
+
+	useEffect(() => {
+		const randomProfile = getRandomProfile();
+		setLocalSettings(randomProfile.settings);
+		setSelectedProfile(randomProfile.name);
+	}, []);
 
 	useEffect(() => {
 		const handler = setTimeout(() => {
 			onSettingsChange(localSettings);
-		}, 1000);
+		}, 250);
 
 		return () => clearTimeout(handler);
 	}, [localSettings, onSettingsChange]);
@@ -38,6 +50,14 @@ export default function SettingsPanel({
 		},
 		[]
 	);
+
+	const applyProfile = (profileName: string) => {
+		const profile = PROFILES.find((p) => p.name === profileName);
+		if (profile) {
+			setLocalSettings(profile.settings);
+			setSelectedProfile(profileName);
+		}
+	};
 
 	const handleColorChange = (index: number, color: string) => {
 		const newColors = [...localSettings.colors];
@@ -74,6 +94,24 @@ export default function SettingsPanel({
 
 	return (
 		<div className='space-y-6'>
+			<div className='space-y-2'>
+				<Label htmlFor='profile'>Profiles</Label>
+				<Select
+					value={selectedProfile || ''}
+					onValueChange={applyProfile}>
+					<SelectTrigger id='profile'>
+						<SelectValue placeholder='Select a profile' />
+					</SelectTrigger>
+					<SelectContent>
+						{PROFILES.map((profile) => (
+							<SelectItem key={profile.name} value={profile.name}>
+								{profile.name}
+							</SelectItem>
+						))}
+					</SelectContent>
+				</Select>
+			</div>
+
 			<div className='space-y-2'>
 				<Label htmlFor='noiseType'>Noise Type</Label>
 				<Select

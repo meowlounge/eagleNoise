@@ -60,7 +60,7 @@ export const exportAsGIF = async (
 	}
 
 	const gif = new GIF({
-		workers: 4,
+		workers: 16,
 		quality: 1,
 		width,
 		height,
