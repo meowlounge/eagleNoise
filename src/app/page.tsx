@@ -7,6 +7,7 @@ import ExportDialog from '@/components/noise-generator/export-dialog';
 import * as THREE from 'three';
 import type { NoiseSettings } from '@/types';
 import { checkDarkMode } from '@/lib/darkmode';
+import Image from 'next/image';
 
 export default function Home() {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -33,7 +34,22 @@ export default function Home() {
 	return (
 		<main className='flex min-h-screen flex-col lg:flex-row'>
 			<div className='w-full lg:w-80 lg:border-r border-neutral-200 dark:border-neutral-800 p-6 bg-neutral-50 dark:text-neutral-100 dark:bg-neutral-950 flex-shrink-0'>
-				<h1 className='text-2xl font-bold mb-6'>🦅 Noise</h1>
+				<h1 className='text-2xl font-bold mb-6'>
+					<a
+						href='https://elink.vercel.app/prodbyeagle'
+						target='_blank'
+						rel='noopener noreferrer'>
+						<Image
+							width={32}
+							height={32}
+							src='https://kappa.lol/WTiY5'
+							alt='Eagle Logo'
+							className='inline-block mr-2 hover:rotate-385 duration-3000 transition-all'
+						/>
+					</a>
+					Noise
+				</h1>
+
 				<SettingsPanel
 					settings={settings}
 					onSettingsChange={setSettings}
