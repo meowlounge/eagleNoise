@@ -1,19 +1,20 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import NoiseCanvas from '@/components/noise-generator/canvas';
 import SettingsPanel from '@/components/noise-generator/settings-panel';
+import ExportDialog from '@/components/noise-generator/export-dialog';
 import * as THREE from 'three';
-import { exportAsPNG } from '@/lib/exporters';
 import type { NoiseSettings } from '@/types';
 import { checkDarkMode } from '@/lib/darkmode';
 
 export default function Home() {
+	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [settings, setSettings] = useState<NoiseSettings>({
 		noiseType: 'perlin',
 		colors: ['#f54ba5', '#89296c', '#f11d77', '#ffd22a', '#95f96a'],
-		width: 1000,
-		height: 600,
+		width: 1024,
+		height: 512,
 		noiseOpacity: 0.08,
 		noiseScale: 0.75,
 		animationSpeed: 2,
@@ -36,9 +37,7 @@ export default function Home() {
 				<SettingsPanel
 					settings={settings}
 					onSettingsChange={setSettings}
-					onExport={() =>
-						exportAsPNG(canvasRef, rendererRef, sceneRef, cameraRef)
-					}
+					onExport={() => setIsOpen(true)}
 				/>
 			</div>
 
@@ -62,6 +61,16 @@ export default function Home() {
 					/>
 				</div>
 			</div>
+
+			<ExportDialog
+				onOpenChange={() => setIsOpen(false)}
+				open={isOpen}
+				settings={settings}
+				canvasRef={canvasRef}
+				sceneRef={sceneRef}
+				rendererRef={rendererRef}
+				cameraRef={cameraRef}
+			/>
 		</main>
 	);
 }
