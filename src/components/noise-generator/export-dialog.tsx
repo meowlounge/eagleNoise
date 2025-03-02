@@ -111,7 +111,7 @@ export default function ExportDialog({
 									<NumberFlow
 										suffix=' seconds'
 										value={gifDuration}
-										className='text-xs font-medium text-neutral-300'></NumberFlow>
+										className='text-xs font-medium text-neutral-500'></NumberFlow>
 								</div>
 								<Slider
 									value={[gifDuration]}
@@ -154,10 +154,16 @@ export default function ExportDialog({
 											y2='17'></line>
 									</svg>
 								</span>
-								<p className='text-xs dark:text-red-200 text-red-400'>
-									Larger canvases may take up to a minute to
-									process. Please be patient during export.
-								</p>
+								<div className='flex flex-col'>
+									<p className='text-xs dark:text-red-200 text-red-400'>
+										Larger canvases may take up to a minute
+										to process. Please be patient during
+										export. Not Recommended for Phones.
+									</p>
+									<p className='text-xs mt-2 italic text-red-300/70'>
+										Can Take up to 3 Minutes..
+									</p>
+								</div>
 							</div>
 						</div>
 					</TabsContent>

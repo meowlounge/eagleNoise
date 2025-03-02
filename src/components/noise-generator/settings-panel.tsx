@@ -246,8 +246,8 @@ export default function SettingsPanel({
 				<Slider
 					id='noiseScale'
 					min={0.1}
-					max={2}
-					step={0.05}
+					max={4}
+					step={0.1}
 					value={[localSettings.noiseScale]}
 					onValueChange={(value) =>
 						updateSetting('noiseScale', value[0])

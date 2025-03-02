@@ -60,12 +60,11 @@ export const exportAsGIF = async (
 	}
 
 	const gif = new GIF({
-		workers: 16,
-		quality: 1,
+		workers: 2,
+		quality: 10,
 		width,
 		height,
 		workerScript: './gif.worker.js',
-		dither: false,
 	});
 
 	gif.on('progress', (p: number) => {

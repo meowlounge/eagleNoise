@@ -42,12 +42,12 @@ export default function Home() {
 						<Image
 							width={32}
 							height={32}
-							src='https://kappa.lol/WTiY5'
+							src='https://kappa.lol/zTb0g'
 							alt='Eagle Logo'
-							className='inline-block mr-2 hover:rotate-385 duration-3000 transition-all'
+							className='inline-block mr-2 hover:scale-115 border duration-300 transition-all rounded-md'
 						/>
 					</a>
-					Noise
+					noisegen
 				</h1>
 
 				<SettingsPanel
