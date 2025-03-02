@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
 	Select,
@@ -12,6 +12,7 @@ import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { NoiseSettings, NoiseType, SettingsPanelProps } from '@/types';
+import NumberFlow, { continuous } from '@number-flow/react';
 
 export default function SettingsPanel({
 	settings,
@@ -23,7 +24,7 @@ export default function SettingsPanel({
 	useEffect(() => {
 		const handler = setTimeout(() => {
 			onSettingsChange(localSettings);
-		}, 200);
+		}, 1000);
 
 		return () => clearTimeout(handler);
 	}, [localSettings, onSettingsChange]);
@@ -104,7 +105,7 @@ export default function SettingsPanel({
 						onChange={(e) =>
 							updateSetting(
 								'width',
-								parseInt(e.target.value) || 800
+								parseInt(e.target.value) || 1024
 							)
 						}
 					/>
@@ -120,7 +121,7 @@ export default function SettingsPanel({
 						onChange={(e) =>
 							updateSetting(
 								'height',
-								parseInt(e.target.value) || 600
+								parseInt(e.target.value) || 512
 							)
 						}
 					/>
@@ -175,7 +176,11 @@ export default function SettingsPanel({
 				<div className='flex justify-between'>
 					<Label htmlFor='noiseOpacity'>Noise Opacity</Label>
 					<span className='text-sm text-neutral-500'>
-						{Math.round(localSettings.noiseOpacity * 100)}%
+						<NumberFlow
+							plugins={[continuous]}
+							value={Math.round(localSettings.noiseOpacity * 100)}
+							suffix='%'
+						/>
 					</span>
 				</div>
 				<Slider
@@ -194,7 +199,10 @@ export default function SettingsPanel({
 				<div className='flex justify-between'>
 					<Label htmlFor='noiseScale'>Noise Scale</Label>
 					<span className='text-sm text-neutral-500'>
-						{localSettings.noiseScale.toFixed(2)}
+						<NumberFlow
+							plugins={[continuous]}
+							value={localSettings.noiseScale}
+						/>
 					</span>
 				</div>
 				<Slider
@@ -213,7 +221,10 @@ export default function SettingsPanel({
 				<div className='flex justify-between'>
 					<Label htmlFor='animationSpeed'>Animation Speed</Label>
 					<span className='text-sm text-neutral-500'>
-						{localSettings.animationSpeed.toFixed(1)}
+						<NumberFlow
+							plugins={[continuous]}
+							value={localSettings.animationSpeed}
+						/>
 					</span>
 				</div>
 				<Slider
@@ -228,9 +239,9 @@ export default function SettingsPanel({
 				/>
 			</div>
 
-			<Button className='w-full mt-8' onClick={onExport}>
+			<Button className='w-full mt-4' onClick={onExport}>
 				<Download className='mr-2 h-4 w-4' />
-				Export
+				Download
 			</Button>
 		</div>
 	);
