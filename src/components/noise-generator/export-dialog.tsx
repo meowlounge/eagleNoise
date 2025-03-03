@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2 } from 'lucide-react';
-import { exportAsPNG, exportAsGIF } from '@/lib/exporters';
+import { exportAsPNG, exportAsGIF, exportAsWebP } from '@/lib/exporters';
 import * as THREE from 'three';
 import { Progress } from '@/components/ui/progress';
 import { Slider } from '@/components/ui/slider';
@@ -53,14 +53,21 @@ export default function ExportDialog({
 					cameraRef,
 					setProgress
 				);
-			} else {
+			} else if (exportType === 'gif') {
 				await exportAsGIF(
 					canvasRef,
 					rendererRef,
 					sceneRef,
 					cameraRef,
-					setProgress,
-					gifDuration
+					setProgress
+				);
+			} else {
+				await exportAsWebP(
+					canvasRef,
+					rendererRef,
+					sceneRef,
+					cameraRef,
+					setProgress
 				);
 			}
 		} catch (error) {
@@ -88,9 +95,10 @@ export default function ExportDialog({
 					onValueChange={(value) =>
 						setExportType(value as 'png' | 'gif')
 					}>
-					<TabsList className='grid w-full grid-cols-2'>
+					<TabsList className='grid w-full grid-cols-3'>
 						<TabsTrigger value='png'>Static (PNG)</TabsTrigger>
 						<TabsTrigger value='gif'>Animated (GIF)</TabsTrigger>
+						<TabsTrigger value='webp'>Animated (WebP)</TabsTrigger>
 					</TabsList>
 					<TabsContent value='png' className='py-4'>
 						<p className='text-sm text-neutral-600'>
@@ -166,6 +174,13 @@ export default function ExportDialog({
 								</div>
 							</div>
 						</div>
+					</TabsContent>
+					<TabsContent value='webp' className='py-4'>
+						<p className='text-sm text-neutral-600'>
+							Export an animated WebP image of the current noise
+							state. This format is lightweight and fast, but may
+							be unstable or buggy in some cases.
+						</p>
 					</TabsContent>
 				</Tabs>
 				{isExporting && (
