@@ -96,9 +96,9 @@ export default function ExportDialog({
 						setExportType(value as 'png' | 'gif')
 					}>
 					<TabsList className='grid w-full grid-cols-3'>
-						<TabsTrigger value='png'>Static (PNG)</TabsTrigger>
-						<TabsTrigger value='gif'>Animated (GIF)</TabsTrigger>
-						<TabsTrigger value='webp'>Animated (WebP)</TabsTrigger>
+						<TabsTrigger value='png'>PNG</TabsTrigger>
+						<TabsTrigger value='gif'>GIF</TabsTrigger>
+						<TabsTrigger value='webp'>WebP</TabsTrigger>
 					</TabsList>
 					<TabsContent value='png' className='py-4'>
 						<p className='text-sm text-neutral-600'>
